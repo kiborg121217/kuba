@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>КУБА — премиальный шоу-рум женской одежды в Вологде</title>
+  <meta name="description" content="КУБА — шоу-рум женской одежды в Вологде. Готовые образы, розничная покупка в магазине, бронь к приезду и подбор под повод.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="header" id="top">
+    <div class="container header__inner">
+      <a href="#top" class="brand" aria-label="КУБА">
+        <span class="brand__title">КУБА</span>
+        <span class="brand__sub">шоу-рум женской моды · Вологда</span>
+      </a>
+      <nav class="nav nav--desktop">
+        <a href="#looks">Образы</a>
+        <a href="#concierge">Подбор</a>
+        <a href="#reserve">Бронь</a>
+        <a href="#visit">Контакты</a>
+      </nav>
+      <div class="header__actions">
+        <a href="tel:+79095994552" class="link-phone">8 909 599 45 52</a>
+        <button class="button button--dark" data-scroll="#looks">Смотреть новинки</button>
+      </div>
+      <button class="burger" aria-label="Открыть меню" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+    <nav class="mobile-menu">
+      <a href="#looks">Образы</a>
+      <a href="#concierge">Подбор</a>
+      <a href="#reserve">Бронь</a>
+      <a href="#visit">Контакты</a>
+      <a href="tel:+79095994552">Позвонить</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__copy reveal">
+          <p class="eyebrow">Премиальный розничный формат · с 2012 года</p>
+          <h1>Образы, в которые хочется войти сразу.</h1>
+          <p class="hero__lead">
+            КУБА — это спокойная женственная мода, собранная как готовые решения: для города, офиса, вечера и повседневной легкости.
+            На сайте — лучшие акцентные позиции и образы, в магазине — весь живой ассортимент и примерка в реальности.
+          </p>
+          <div class="hero__actions">
+            <button class="button button--dark" data-scroll="#concierge">Подобрать образ по поводу</button>
+            <button class="button button--light" data-open-reserve data-product="Образ по подбору">Бронь к приезду</button>
+          </div>
+          <div class="hero__meta">
+            <div>
+              <span>Адрес</span>
+              <strong>Вологда, Новгородская 2А<br>вход у Магнита, 2 этаж</strong>
+            </div>
+            <div>
+              <span>Формат</span>
+              <strong>розничная покупка<br>бронь, подбор, примерка</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__visual reveal reveal--delay">
+          <div class="hero-stack">
+            <article class="hero-card hero-card--main tilt-card">
+              <img src="assets/93DABBE5-81E8-4863-B35F-EE08C53E91CA.jpeg" alt="Костюм в светло-оливковом оттенке">
+            </article>
+            <article class="hero-card hero-card--float tilt-card">
+              <img src="assets/E58FEA85-61A6-429D-813B-F7C48DBABB33.jpeg" alt="Платье оливкового оттенка">
+            </article>
+            <aside class="hero-badge glass">
+              <span>signature edit</span>
+              <strong>капсулы под событие,<br>а не случайный набор вещей</strong>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="value-strip">
+      <div class="container value-strip__grid reveal">
+        <article>
+          <span>01</span>
+          <h3>Готовые образы</h3>
+          <p>сайт подсказывает сочетания под повод, а не просто показывает вещи по одной</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Бронь к приезду</h3>
+          <p>оставьте запрос, получите номер брони и приезжайте в удобное время</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Премиальная подача</h3>
+          <p>спокойный визуал, крупные фото, ритм и воздух как у сильного fashion-проекта</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--looks" id="looks">
+      <div class="container">
+        <div class="section__head reveal">
+          <div>
+            <p class="eyebrow">editorial selection</p>
+            <h2>Выбранные образы</h2>
+          </div>
+          <p class="section__text">Каждый образ можно открыть, посмотреть состав и сразу отправить на бронь или подобрать похожий по настроению.</p>
+        </div>
+
+        <div class="occasion-tabs reveal" id="occasionTabs">
+          <button class="chip is-active" data-occasion="all">Все</button>
+          <button class="chip" data-occasion="office">Офис</button>
+          <button class="chip" data-occasion="city">Город</button>
+          <button class="chip" data-occasion="day">На каждый день</button>
+          <button class="chip" data-occasion="soft">Женственно</button>
+        </div>
+
+        <div class="looks-grid" id="looksGrid"></div>
+      </div>
+    </section>
+
+    <section class="section section--concierge" id="concierge">
+      <div class="container concierge">
+        <div class="concierge__copy reveal">
+          <p class="eyebrow">style concierge</p>
+          <h2>Подберите образ под повод за пару шагов</h2>
+          <p>
+            Выберите сценарий, настроение и желаемые категории. Сайт соберет готовые варианты, которые можно сохранить,
+            показать продавцу в магазине или отправить на бронь.
+          </p>
+        </div>
+
+        <div class="concierge__panel glass reveal reveal--delay">
+          <div class="concierge__row">
+            <label>
+              <span>Повод</span>
+              <select id="occasionSelect">
+                <option value="office">Офис / деловая встреча</option>
+                <option value="city">Город / прогулка</option>
+                <option value="day">Каждый день</option>
+                <option value="soft">Женственный выход</option>
+              </select>
+            </label>
+            <label>
+              <span>Настроение</span>
+              <select id="moodSelect">
+                <option value="light">Светлое и воздушное</option>
+                <option value="calm">Спокойная база</option>
+                <option value="accent">С акцентом</option>
+                <option value="soft">Мягкая женственность</option>
+              </select>
+            </label>
+          </div>
+          <div class="concierge__toggle-group">
+            <button class="toggle-chip is-active" data-need="top">Верх</button>
+            <button class="toggle-chip is-active" data-need="bottom">Низ</button>
+            <button class="toggle-chip" data-need="bag">Сумка</button>
+            <button class="toggle-chip" data-need="accessory">Акцент</button>
+          </div>
+          <div class="concierge__actions">
+            <button class="button button--dark" id="buildLooks">Собрать варианты</button>
+            <button class="button button--light" id="clearBuilder">Сбросить</button>
+          </div>
+        </div>
+
+        <div class="concierge__result reveal" id="builderResult">
+          <div class="builder-placeholder glass">
+            <strong>Ваш персональный подбор появится здесь</strong>
+            <p>Сайт покажет образы, которые совпадают по поводу и настроению.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--story">
+      <div class="container story-grid">
+        <article class="story-card reveal tilt-card">
+          <span class="story-card__index">01</span>
+          <h3>Как работает бронь</h3>
+          <p>Вы открываете вещь или образ, нажимаете «Отложить», указываете телефон — и получаете номер брони.</p>
+        </article>
+        <article class="story-card reveal reveal--delay tilt-card">
+          <span class="story-card__index">02</span>
+          <h3>Что происходит дальше</h3>
+          <p>В магазине комплект собирают к вашему приезду. Вы приезжаете, примеряете, оплачиваете официально через кассу.</p>
+        </article>
+        <article class="story-card reveal reveal--delay-2 tilt-card">
+          <span class="story-card__index">03</span>
+          <h3>Почему это удобно</h3>
+          <p>Вы не тратите время на случайный поиск: сайт помогает выбрать направление, а магазин — довести образ до идеала.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--mosaic">
+      <div class="container">
+        <div class="section__head reveal">
+          <div>
+            <p class="eyebrow">visual rhythm</p>
+            <h2>Fashion-витрина</h2>
+          </div>
+          <p class="section__text">Ниже — живая подборка образов и акцентных позиций, чтобы человек чувствовал стиль магазина уже с первого экрана.</p>
+        </div>
+        <div class="mosaic-grid reveal" id="mosaicGrid"></div>
+      </div>
+    </section>
+
+    <section class="section section--reserve" id="reserve">
+      <div class="container reserve-band reveal">
+        <div>
+          <p class="eyebrow">reserve concierge</p>
+          <h2>Нужен образ к приезду?</h2>
+          <p>Оставьте заявку, и в магазине подготовят вещи к вашему визиту: один образ, несколько вариантов или акцентную сумку под уже выбранный комплект.</p>
+        </div>
+        <button class="button button--dark" data-open-reserve data-product="Подбор образа">Оставить заявку</button>
+      </div>
+    </section>
+
+    <section class="section section--visit" id="visit">
+      <div class="container visit-grid">
+        <div class="visit-card reveal">
+          <p class="eyebrow">visit kuba</p>
+          <h2>Шоу-рум «КУБА»</h2>
+          <ul>
+            <li><strong>Адрес:</strong> Вологда, ул. Новгородская, д. 2А, вход у Магнита, 2 этаж</li>
+            <li><strong>Телефон:</strong> <a href="tel:+79095994552">8 909 599 45 52</a></li>
+            <li><strong>VK:</strong> <a href="https://vk.ru/vologdakuba" target="_blank" rel="noopener">vk.ru/vologdakuba</a></li>
+            <li><strong>Контакт:</strong> Алла</li>
+          </ul>
+        </div>
+        <div class="visit-card visit-card--accent reveal reveal--delay">
+          <h3>Формат магазина</h3>
+          <p>Выбор на сайте — это старт. Финальное ощущение ткани, посадки и образа всегда раскрывается вживую в шоу-руме.</p>
+          <div class="visit-actions">
+            <a class="button button--dark" href="tel:+79095994552">Позвонить</a>
+            <a class="button button--light" href="https://yandex.ru/maps/?text=Вологда%20Новгородская%202А" target="_blank" rel="noopener">Открыть маршрут</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="bottom-bar">
+    <a href="#looks">Образы</a>
+    <a href="#concierge">Подбор</a>
+    <a href="#reserve">Бронь</a>
+    <a href="tel:+79095994552">Звонок</a>
+  </div>
+
+  <dialog class="modal" id="lookModal">
+    <div class="modal__sheet modal__sheet--look">
+      <button class="modal__close" data-close-modal>&times;</button>
+      <div class="modal__look" id="lookModalContent"></div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="reserveModal">
+    <div class="modal__sheet">
+      <button class="modal__close" data-close-modal>&times;</button>
+      <p class="eyebrow">бронь к приезду</p>
+      <h3 id="reserveHeading">Оформить бронь</h3>
+      <form id="reserveForm" class="reserve-form">
+        <input type="hidden" name="product">
+        <label>
+          <span>Имя</span>
+          <input type="text" name="name" required>
+        </label>
+        <label>
+          <span>Телефон</span>
+          <input type="tel" name="phone" required>
+        </label>
+        <div class="reserve-form__row">
+          <label>
+            <span>Размер / уточнение</span>
+            <input type="text" name="size" placeholder="например: 44 / 46 или уточнить в магазине">
+          </label>
+          <label>
+            <span>Когда удобно приехать</span>
+            <input type="text" name="time" placeholder="сегодня после 18:00">
+          </label>
+        </div>
+        <label>
+          <span>Комментарий</span>
+          <textarea name="comment" rows="4" placeholder="Можно указать повод, пожелания по сумке, цвету или настроению образа"></textarea>
+        </label>
+        <button class="button button--dark" type="submit">Отправить бронь</button>
+      </form>
+      <div class="reserve-success" id="reserveSuccess" hidden>
+        <strong>Заявка сохранена</strong>
+        <p id="reserveSuccessText"></p>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
