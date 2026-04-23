@@ -357,8 +357,9 @@ reserveForm?.addEventListener('submit', async e => {
     reserveSuccess.hidden = false;
     reserveSuccessText.textContent = `${formData.get('name')}, бронь ${bookingId} сохранена для позиции «${formData.get('product')}». Покажите номер в магазине или назовите его продавцу.`;
   } catch (error) {
-    alert('Не удалось отправить бронь. Проверь подключение backend или попробуй ещё раз.');
-    console.error(error);
+    const detail = error?.message ? `\n\nДетали: ${error.message}` : '';
+    alert(`Не удалось отправить бронь.${detail}`);
+    console.error('Reserve submit failed:', error, 'API_BASE=', API_BASE);
   }
 });
 

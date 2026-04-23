@@ -1,5 +1,16 @@
-const API_BASE = (window.KUBA_API_BASE || '').replace(/\/$/, '');
+const ADMIN_API_BASE = (window.KUBA_API_BASE || '').replace(/\/$/, '');
 const defaultPin = '2012';
+
+const adminLooks = [
+  { title: 'Футболка с вышивкой', price: '1800₽', sizes: '42–48', image: 'assets/0992F790-F216-4204-AF6F-0042EE5240F7.jpeg', desc: 'Нежная база с мягким акцентом — спокойный верх на каждый день.' },
+  { title: 'Жакет в клетку', price: '3800₽', sizes: '42, 44, 48', image: 'assets/347906FC-A487-43A1-BCCD-0D5F87D774DB.jpeg', desc: 'Структурный жакет для офиса, города и современной капсулы.' },
+  { title: 'Сумка mini city', price: '1300₽', sizes: 'универсально', image: 'assets/57C060E1-4F0C-4C23-80BE-9385A30E5CE4.jpeg', desc: 'Компактная городская сумка для повседневных образов.' },
+  { title: 'Леопард + деним', price: '5670₽', sizes: 'комплект', image: 'assets/0CB2C0D4-7FC7-4839-8342-D0304F58B272.jpeg', desc: 'Городской образ с принтом и расслабленным денимом.' },
+  { title: 'Мятная воздушная капсула', price: '7200₽', sizes: 'капсула', image: 'assets/0F36B715-45C0-4ECD-AAC0-11D416A3B0FB.jpeg', desc: 'Мягкая многослойная капсула в светлой гамме.' },
+  { title: 'Костюм soft power', price: '6000₽', sizes: '42, 48', image: 'assets/93DABBE5-81E8-4863-B35F-EE08C53E91CA.jpeg', desc: 'Женственный костюм для офиса и выхода.' },
+  { title: 'Платье olive day', price: '3800₽', sizes: '44, 46, 48', image: 'assets/E58FEA85-61A6-429D-813B-F7C48DBABB33.jpeg', desc: 'Спокойное платье на каждый день.' }
+];
+
 const loginCard = document.getElementById('loginCard');
 const sidePanel = document.getElementById('sidePanel');
 const adminApp = document.getElementById('adminApp');
@@ -15,9 +26,9 @@ const copyBtn = document.getElementById('copyBtn');
 const clearBtn = document.getElementById('clearBtn');
 
 async function getReserves() {
-  if (API_BASE) {
+  if (ADMIN_API_BASE) {
     const pin = sessionStorage.getItem('kuba_admin_pin') || '';
-    const response = await fetch(`${API_BASE}/api/reserves`, {
+    const response = await fetch(`${ADMIN_API_BASE}/api/reserves`, {
       headers: { 'x-admin-pin': pin }
     });
     if (response.status === 401) throw new Error('Неверный PIN-код');
@@ -79,9 +90,8 @@ async function renderReserves() {
 }
 
 function renderProducts() {
-  const looks = window.KUBA_LOOKS || [];
-  kpiLooks.textContent = looks.length;
-  productsGrid.innerHTML = looks.map(item => `
+  kpiLooks.textContent = adminLooks.length;
+  productsGrid.innerHTML = adminLooks.map(item => `
     <article class="admin-product">
       <img src="${item.image}" alt="${item.title}">
       <div>
@@ -116,7 +126,7 @@ loginForm?.addEventListener('submit', async e => {
   e.preventDefault();
   const pin = document.getElementById('adminPin').value.trim();
 
-  if (!API_BASE) {
+  if (!ADMIN_API_BASE) {
     if (pin !== defaultPin) {
       alert('Неверный PIN-код');
       return;
@@ -161,7 +171,7 @@ copyBtn?.addEventListener('click', async () => {
 });
 
 clearBtn?.addEventListener('click', async () => {
-  if (API_BASE) {
+  if (ADMIN_API_BASE) {
     alert('Очистку лучше делать в базе или отдельной серверной командой. На этом шаге кнопка отключена.');
     return;
   }
