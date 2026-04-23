@@ -1,3 +1,5 @@
+const API_BASE = (window.KUBA_API_BASE || '').replace(/\/$/, '');
+
 const looks = [
   {
     id: 'tee-bear',
@@ -119,6 +121,7 @@ let currentOccasion = 'all';
 let activeNeeds = new Set(['top', 'bottom']);
 
 function renderLooks(filter = 'all') {
+  if (!looksGrid) return;
   looksGrid.innerHTML = '';
   const filtered = filter === 'all' ? looks : looks.filter(item => item.occasion === filter);
   filtered.forEach((item, index) => {
@@ -147,6 +150,7 @@ function renderLooks(filter = 'all') {
 }
 
 function renderMosaic() {
+  if (!mosaicGrid) return;
   mosaicGrid.innerHTML = mosaicData.map(item => `
     <article class="mosaic-card tilt-card">
       <img src="${item.image}" alt="${item.title}">
@@ -164,7 +168,7 @@ function labelForOccasion(key) {
 
 function openLook(id) {
   const item = looks.find(x => x.id === id);
-  if (!item) return;
+  if (!item || !lookModalContent || !lookModal) return;
   lookModalContent.innerHTML = `
     <img src="${item.image}" alt="${item.title}">
     <div class="modal__look-copy">
@@ -186,6 +190,7 @@ function openLook(id) {
 }
 
 function openReserve(productName) {
+  if (!reserveForm || !reserveModal || !reserveHeading) return;
   reserveForm.reset();
   reserveSuccess.hidden = true;
   reserveForm.hidden = false;
@@ -194,24 +199,36 @@ function openReserve(productName) {
   reserveModal.showModal();
 }
 
-function saveReserve(formData) {
-  const reserves = JSON.parse(localStorage.getItem('kuba_reserves') || '[]');
-  const bookingId = `KUBA-${Math.floor(1000 + Math.random() * 9000)}`;
-  reserves.unshift({
-    bookingId,
+async function saveReserve(formData) {
+  const payload = {
     product: formData.get('product'),
     name: formData.get('name'),
     phone: formData.get('phone'),
     size: formData.get('size'),
     time: formData.get('time'),
-    comment: formData.get('comment'),
-    createdAt: new Date().toISOString()
-  });
+    comment: formData.get('comment')
+  };
+
+  if (API_BASE) {
+    const response = await fetch(`${API_BASE}/api/reserves`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!response.ok) throw new Error('Не удалось сохранить бронь на сервере');
+    const data = await response.json();
+    return data.bookingId;
+  }
+
+  const reserves = JSON.parse(localStorage.getItem('kuba_reserves') || '[]');
+  const bookingId = `KUBA-${Math.floor(1000 + Math.random() * 9000)}`;
+  reserves.unshift({ ...payload, bookingId, createdAt: new Date().toISOString() });
   localStorage.setItem('kuba_reserves', JSON.stringify(reserves));
   return bookingId;
 }
 
 function buildLooks() {
+  if (!builderResult || !occasionSelect || !moodSelect) return;
   const occasion = occasionSelect.value;
   const mood = moodSelect.value;
   const needs = Array.from(activeNeeds);
@@ -257,6 +274,7 @@ function buildLooks() {
 
 function observeReveals() {
   const items = document.querySelectorAll('.reveal');
+  if (!items.length || typeof IntersectionObserver === 'undefined') return;
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -285,7 +303,7 @@ function initTilt() {
   });
 }
 
-occasionTabs.addEventListener('click', e => {
+occasionTabs?.addEventListener('click', e => {
   const chip = e.target.closest('[data-occasion]');
   if (!chip) return;
   document.querySelectorAll('#occasionTabs .chip').forEach(btn => btn.classList.remove('is-active'));
@@ -307,7 +325,7 @@ document.addEventListener('click', e => {
   if (closeModalBtn) closeModalBtn.closest('dialog').close();
   if (scrollBtn) {
     document.querySelector(scrollBtn.dataset.scroll)?.scrollIntoView({ behavior: 'smooth' });
-    if (lookModal.open) lookModal.close();
+    if (lookModal?.open) lookModal.close();
   }
   if (toggleNeed) {
     const need = toggleNeed.dataset.need;
@@ -320,8 +338,9 @@ document.addEventListener('click', e => {
   }
 });
 
-buildLooksBtn.addEventListener('click', buildLooks);
-clearBuilderBtn.addEventListener('click', () => {
+buildLooksBtn?.addEventListener('click', buildLooks);
+clearBuilderBtn?.addEventListener('click', () => {
+  if (!occasionSelect || !moodSelect || !builderResult) return;
   occasionSelect.value = 'office';
   moodSelect.value = 'light';
   activeNeeds = new Set(['top', 'bottom']);
@@ -329,29 +348,33 @@ clearBuilderBtn.addEventListener('click', () => {
   builderResult.innerHTML = `<div class="builder-placeholder glass"><strong>Ваш персональный подбор появится здесь</strong><p>Сайт покажет образы, которые совпадают по поводу и настроению.</p></div>`;
 });
 
-reserveForm.addEventListener('submit', e => {
+reserveForm?.addEventListener('submit', async e => {
   e.preventDefault();
   const formData = new FormData(reserveForm);
-  const bookingId = saveReserve(formData);
-  reserveForm.hidden = true;
-  reserveSuccess.hidden = false;
-  reserveSuccessText.textContent = `${formData.get('name')}, бронь ${bookingId} сохранена для позиции «${formData.get('product')}». Покажите номер в магазине или назовите его продавцу.`;
+  try {
+    const bookingId = await saveReserve(formData);
+    reserveForm.hidden = true;
+    reserveSuccess.hidden = false;
+    reserveSuccessText.textContent = `${formData.get('name')}, бронь ${bookingId} сохранена для позиции «${formData.get('product')}». Покажите номер в магазине или назовите его продавцу.`;
+  } catch (error) {
+    alert('Не удалось отправить бронь. Проверь подключение backend или попробуй ещё раз.');
+    console.error(error);
+  }
 });
 
-burger.addEventListener('click', () => {
+burger?.addEventListener('click', () => {
   const open = mobileMenu.classList.toggle('is-open');
   burger.setAttribute('aria-expanded', String(open));
 });
-mobileMenu.addEventListener('click', e => {
+mobileMenu?.addEventListener('click', e => {
   if (e.target.matches('a')) mobileMenu.classList.remove('is-open');
 });
 
-[lookModal, reserveModal].forEach(modal => modal.addEventListener('click', e => {
+[lookModal, reserveModal].filter(Boolean).forEach(modal => modal.addEventListener('click', e => {
   const rect = modal.getBoundingClientRect();
   const inside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
   if (!inside) modal.close();
 }));
-
 
 renderLooks();
 renderMosaic();
